@@ -9,7 +9,7 @@ function Banner() {
   useEffect(function(){
     axios.get("https://api.themoviedb.org/3/trending/movie/week?api_key=25f5aa0054b7833e917fe5ffd48793f9").then((res)=>
 
-        {  setMovies(res.data.results[8])}
+        {  setMovies(res.data.results[10])}
     )
   },[])
 

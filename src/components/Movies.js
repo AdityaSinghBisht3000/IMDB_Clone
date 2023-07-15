@@ -31,10 +31,15 @@ function Movies() {
 
   useEffect(function(){
     
+  
     axios.get(`https://api.themoviedb.org/3/trending/movie/week?api_key=25f5aa0054b7833e917fe5ffd48793f9&page=${pageNumber}`).then((res)=>
    { 
     console.log(pageNumber)
-    setMovies(res.data.results)}
+    setMovies(res.data.results)
+    let oldFav=localStorage.getItem("imdb");
+    oldFav=JSON.parse(oldFav)||[]
+    setFavourites([...oldFav])
+   }
     )
 
   },[pageNumber])
@@ -43,9 +48,15 @@ function Movies() {
       let newArray = [...favourites,movie]
       setFavourites([...newArray])
       console.log(newArray)
+      localStorage.setItem("imdb",JSON.stringify(newArray))
   }
 
-  
+  let del=(movie)=>{
+    let newArray=favourites.filter((m)=>m.id!=movie.id)
+    setFavourites([...newArray])
+    localStorage.setItem("imdb",JSON.stringify(newArray))
+
+  }
   
 
 
@@ -75,7 +86,7 @@ function Movies() {
             hower==movie.id && 
             <>
             { favourites.find((m)=>m.id==movie.id)? 
-            <div className='absolute top-2 right-2 p-2 bg-gray-800 rounded-xl text-xl bg-opacity-50 cursor-pointer ' onClick={()=>add(movie)}> ✔ </div> 
+            <div className='absolute top-2 right-2 p-2 bg-gray-800 rounded-xl text-xl bg-opacity-50 cursor-pointer ' onClick={()=>del(movie)}> ✔ </div> 
             :
             <div className='absolute top-2 right-2 p-2 bg-gray-800 rounded-xl text-xl bg-opacity-50 cursor-pointer ' onClick={()=>add(movie)}> 😍 </div>
               
